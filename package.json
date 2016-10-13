@@ -1,6 +1,6 @@
 {
   "name": "decouplejs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A dead simple pub/sub message bus and service manager useful for decoupling your javascript code.",
   "main": "lib/decouple.js",
   "typings": "lib/decouple.d.ts",

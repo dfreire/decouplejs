@@ -1,0 +1,38 @@
+{
+  "name": "decouplejs",
+  "version": "1.0.0",
+  "description": "A dead simple pub/sub message bus and service manager useful for decoupling your javascript code.",
+  "main": "lib/decouple.js",
+  "typings": "lib/decouple.d.ts",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/jest": "^15.1.32",
+    "babel-jest": "^15.0.0",
+    "babel-preset-es2015": "^6.14.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "coveralls": "^2.11.14",
+    "jest": "^15.1.1",
+    "jest-cli": "^15.1.1"
+  },
+  "scripts": {
+    "compile": "tsc",
+    "compile-watch": "tsc --watch",
+    "test": "jest --coverage",
+    "test-watch": "jest --watch"
+  },
+  "jest": {
+    "testPathDirs": [
+      "lib/"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dfreire/decouplejs.git"
+  },
+  "author": "dario.freire@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dfreire/decouplejs/issues"
+  },
+  "homepage": "https://github.com/dfreire/decouplejs#readme"
+}

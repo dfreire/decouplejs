@@ -1,14 +1,24 @@
+// tslint:disable
+export type ListenerCallback = { (payload?: any): void };
+export type HandlerCallback = { (payload?: any): any };
+
 export class Decouple {
-	// tslint:disable
-	listeners: { [id: string]: any };
-	handlers: { [id: string]: any };
+	private listeners: {
+		[eventId: string]: {
+			[listenerId: string]: ListenerCallback;
+		};
+	};
+
+	private handlers: {
+		[requestId: string]: HandlerCallback;
+	}
 
 	constructor() {
 		this.listeners = {};
 		this.handlers = {};
 	}
 
-	on(eventId: string, callback: Function): string {
+	on(eventId: string, callback: ListenerCallback): string {
 		if (this.listeners[eventId] == null) {
 			this.listeners[eventId] = {};
 		}
@@ -26,14 +36,14 @@ export class Decouple {
 		delete this.listeners[eventId][listenerId];
 	}
 
-	fire(eventId: string, data?: any): void {
+	fire(eventId: string, payload?: any): void {
 		for (let listenerId in this.listeners[eventId]) {
 			const callback = this.listeners[eventId][listenerId];
-			callback(data);
+			callback(payload);
 		}
 	}
 
-	handle(requestId: string, callback: Function) {
+	handle(requestId: string, callback: HandlerCallback) {
 		if (this.handlers[requestId] == null) {
 			this.handlers[requestId] = callback;
 		} else {
@@ -41,9 +51,9 @@ export class Decouple {
 		}
 	}
 
-	request(requestId: string, data?: any): any {
+	request(requestId: string, payload?: any): any {
 		const callback = this.handlers[requestId];
-		return callback(data);
+		return callback(payload);
 	}
-	// tslint:enable
 }
+// tslint:enable

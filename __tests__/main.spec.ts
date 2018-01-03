@@ -28,10 +28,8 @@ describe('Decouple instance when there are no callbacks registered', () => {
 
 describe('Decouple instance when there are callbacks registered', () => {
 	let decouple: Decouple;
-	let subscriberIdA1, callbackA1;
-	let subscriberIdA2, callbackA2;
-	let subscriberIdB1, callbackB1;
-	let subscriberIdB2, callbackB2;
+	let subscriberA1;
+	let callbackA1, callbackA2, callbackB1, callbackB2;
 
 	beforeEach(() => {
 		decouple = new Decouple();
@@ -41,10 +39,10 @@ describe('Decouple instance when there are callbacks registered', () => {
 		callbackB1 = jest.fn();
 		callbackB2 = jest.fn();
 
-		subscriberIdA1 = decouple.on('EVENT_A', callbackA1);
-		subscriberIdA2 = decouple.on('EVENT_A', callbackA2);
-		subscriberIdB1 = decouple.on('EVENT_B', callbackB1);
-		subscriberIdB2 = decouple.on('EVENT_B', callbackB2);
+		subscriberA1 = decouple.on('EVENT_A', callbackA1);
+		decouple.on('EVENT_A', callbackA2);
+		decouple.on('EVENT_B', callbackB1);
+		decouple.on('EVENT_B', callbackB2);
 	});
 
 	describe('an event is fired', () => {
@@ -78,7 +76,7 @@ describe('Decouple instance when there are callbacks registered', () => {
 
 	describe('a callback is unregistered', () => {
 		beforeEach(() => {
-			decouple.off('EVENT_A', subscriberIdA1);
+			decouple.off('EVENT_A', subscriberA1);
 		});
 
 		describe('an event is fired', () => {

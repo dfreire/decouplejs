@@ -1,11 +1,12 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 class Decouple {
     constructor() {
         this.subscribers = {};
         this.services = {};
     }
     subscribe(id, callback) {
-        if (this.subscribers[id] === undefined) {
+        if (this.subscribers[id] == null) {
             this.subscribers[id] = {};
         }
         let subscriberId;
@@ -41,5 +42,5 @@ class Decouple {
         }
     }
 }
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = Decouple;
+exports.Decouple = Decouple;
+//# sourceMappingURL=main.js.map

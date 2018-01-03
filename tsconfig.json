@@ -1,13 +1,26 @@
 {
-    "compileOnSave": true,
-    "compilerOptions": {
-        "module": "commonjs",
-        "target": "es2015",
-        "rootDir": "src",
-        "outDir": "lib",
-        "sourceMap": false,
-        "noImplicitAny": false,
-        "removeComments": true,
-        "declaration": true
-    }
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "jsx": "preserve",
+    "allowJs": true,
+    "importHelpers": true,
+    "alwaysStrict": true,
+    "sourceMap": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitAny": false,
+    "noImplicitThis": false,
+    "strictNullChecks": false,
+    "declaration": true
+  },
+  "include": [
+    "src/**/*",
+    "__tests__/**/*"
+  ]
 }

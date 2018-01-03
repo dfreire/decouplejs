@@ -1,53 +1,49 @@
-
 export class Decouple {
 	// tslint:disable
-	subscribers: { [id: string]: any };
-	services: { [id: string]: any };
+	listeners: { [id: string]: any };
+	handlers: { [id: string]: any };
 
 	constructor() {
-		this.subscribers = {};
-		this.services = {};
+		this.listeners = {};
+		this.handlers = {};
 	}
 
-	on(id: string, callback: Function): string {
-		if (this.subscribers[id] == null) {
-			this.subscribers[id] = {};
+	on(eventId: string, callback: Function): string {
+		if (this.listeners[eventId] == null) {
+			this.listeners[eventId] = {};
 		}
 
-		let subscriberId;
-		while (subscriberId == null || this.subscribers[id][subscriberId] != null) {
-			subscriberId = Math.random().toString(36).slice(-12);
+		let listenerId;
+		while (listenerId == null || this.listeners[eventId][listenerId] != null) {
+			listenerId = Math.random().toString(36).slice(-12);
 		}
 
-		this.subscribers[id][subscriberId] = callback;
-		return subscriberId;
+		this.listeners[eventId][listenerId] = callback;
+		return listenerId;
 	}
 
-	off(id: string, subscriberId: string): void {
-		delete this.subscribers[id][subscriberId];
+	off(eventId: string, listenerId: string): void {
+		delete this.listeners[eventId][listenerId];
 	}
 
-	fire(id: string, data?: any): void {
-		for (let subscriberId in this.subscribers[id]) {
-			const callback = this.subscribers[id][subscriberId];
+	fire(eventId: string, data?: any): void {
+		for (let listenerId in this.listeners[eventId]) {
+			const callback = this.listeners[eventId][listenerId];
 			callback(data);
 		}
 	}
 
-	setService<T>(id: string, service: T) {
-		if (this.services[id] == null) {
-			this.services[id] = service;
+	handle(requestId: string, callback: Function) {
+		if (this.handlers[requestId] == null) {
+			this.handlers[requestId] = callback;
 		} else {
-			throw `Error: there is already a service with id: '${id}'.`
+			throw `Error: there is already a handler with id: '${requestId}'.`
 		}
 	}
 
-	getService<T>(id: string): T {
-		if (this.services[id] != null) {
-			return this.services[id];
-		} else {
-			throw `Error: there is no service with id: '${id}'.`
-		}
+	request(requestId: string, data?: any): any {
+		const callback = this.handlers[requestId];
+		return callback(data);
 	}
 	// tslint:enable
 }

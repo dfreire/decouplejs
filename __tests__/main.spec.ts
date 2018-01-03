@@ -7,13 +7,13 @@ describe('Decouple', () => {
 		expect(decouple.on).toBeDefined();
 		expect(decouple.off).toBeDefined();
 		expect(decouple.fire).toBeDefined();
-		expect(decouple.setService).toBeDefined();
-		expect(decouple.getService).toBeDefined();
+		expect(decouple.handle).toBeDefined();
+		expect(decouple.request).toBeDefined();
 	});
 });
 
 describe('Decouple instance when there are no callbacks registered', () => {
-	let decouple;
+	let decouple: Decouple;
 
 	beforeEach(() => {
 		decouple = new Decouple();
@@ -27,7 +27,7 @@ describe('Decouple instance when there are no callbacks registered', () => {
 });
 
 describe('Decouple instance when there are callbacks registered', () => {
-	let decouple;
+	let decouple: Decouple;
 	let subscriberIdA1, callbackA1;
 	let subscriberIdA2, callbackA2;
 	let subscriberIdB1, callbackB1;
@@ -93,61 +93,56 @@ describe('Decouple instance when there are callbacks registered', () => {
 	});
 });
 
-describe('no service is registered', () => {
-	let decouple;
+describe('no handler is registered', () => {
+	let decouple: Decouple;
 
 	beforeEach(() => {
 		decouple = new Decouple();
 	});
 
-	it('is possible to register new services', () => {
-		expect(() => { decouple.setService('PingService', jest.fn()) }).not.toThrow();
-		expect(() => { decouple.setService('EchoService', jest.fn()) }).not.toThrow();
+	it('is possible to register new handlers', () => {
+		expect(() => { decouple.handle('ping', jest.fn()) }).not.toThrow();
+		expect(() => { decouple.handle('echo', jest.fn()) }).not.toThrow();
 	});
 
-	it('is not possible to obtain an inexistent service', () => {
-		expect(() => { decouple.getService('InexistentService') }).toThrow();
+	it('is not possible to request an inexistent handler', () => {
+		expect(() => { decouple.request('inexistent') }).toThrow();
 	});
 });
 
-describe('services are registered', () => {
-	let decouple;
+describe('handlers are registered', () => {
+	let decouple: Decouple;
 
 	beforeEach(() => {
 		decouple = new Decouple();
-		decouple.setService('PingService', new PingService());
-		decouple.setService('EchoService', new EchoService());
+		decouple.handle('ping', ping);
+		decouple.handle('echo', echo);
 	});
 
-	it('is possible to obtain a registered service', () => {
-		const service: PingService = decouple.getService('PingService');
-		expect(service.ping()).toBe('pong');
+	it('is possible to obtain a registered handler', () => {
+		expect(decouple.request('ping')).toBe('pong');
 	});
 
-	it('is possible to obtain another registered service', () => {
-		const service: EchoService = decouple.getService('EchoService');
-		expect(service.echo('hello')).toBe('hello');
+	it('is possible to obtain another registered handler', () => {
+		expect(decouple.request('echo','hello')).toBe('hello');
 	});
 
-	it('is not possible to register repeated services', () => {
-		expect(() => { decouple.setService('PingService', {}) }).toThrow();
+	it('is not possible to register repeated handlers', () => {
+		expect(() => { decouple.handle('ping', jest.fn()) }).toThrow();
 	});
 
-	it('is not possible to obtain an inexistent service', () => {
-		expect(() => { decouple.getService('InexistentService') }).toThrow();
+	it('is not possible to request an inexistent handler', () => {
+		expect(() => { decouple.request('inexistent') }).toThrow();
 	});
 });
 
-class PingService {
-	ping(): string {
-		return 'pong';
-	}
+
+function ping(): string {
+	return 'pong';
 }
 
-class EchoService {
-	echo(message: string): string {
-		return message;
-	}
+function echo(message: string): string {
+	return message;
 }
 
 // tslint:enable

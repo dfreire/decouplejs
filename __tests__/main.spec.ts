@@ -117,13 +117,14 @@ describe('handlers are registered', () => {
 		decouple = new Decouple();
 		decouple.handle('ping', ping);
 		decouple.handle('echo', echo);
+		decouple.handle('asyncPing', asyncPing);
 	});
 
-	it('is possible to obtain a registered handler', () => {
+	it('is possible to request a registered handler', () => {
 		expect(decouple.request('ping')).toBe('pong');
 	});
 
-	it('is possible to obtain another registered handler', () => {
+	it('is possible to request another registered handler', () => {
 		expect(decouple.request('echo','hello')).toBe('hello');
 	});
 
@@ -134,8 +135,12 @@ describe('handlers are registered', () => {
 	it('is not possible to request an inexistent handler', () => {
 		expect(() => { decouple.request('inexistent') }).toThrow();
 	});
-});
 
+	it('is possible to request an async handler', async () => {
+		const result = await decouple.request('asyncPing');
+		expect(result).toBe('pong, but async');
+	});
+});
 
 function ping(): string {
 	return 'pong';
@@ -145,4 +150,11 @@ function echo(message: string): string {
 	return message;
 }
 
+function asyncPing(): Promise<string> {
+	return new Promise<string>((resolve, reject) => {
+		setTimeout(() => {
+			resolve('pong, but async');
+		}, 0);
+	});
+}
 // tslint:enable

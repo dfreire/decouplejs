@@ -3,7 +3,7 @@
   "compilerOptions": {
     "declaration": true,
     "allowJs": false,
-    "rootDir": ".",
+    "rootDir": "src",
     "outDir": "build",
     "removeComments": true,
     "jsx": "react"

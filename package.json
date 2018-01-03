@@ -1,6 +1,6 @@
 {
 	"name": "decouplejs",
-	"version": "2.0.0-alpha5",
+	"version": "2.0.0-alpha6",
 	"description": "A dead simple message and request bus to help you decouple your javascript code.",
 	"author": "Dario Freire <dario.freire@gmail.com>",
 	"license": "MIT",
@@ -12,8 +12,8 @@
 	"bugs": {
 		"url": "https://github.com/dfreire/decouplejs/issues"
 	},
-	"main": "build/src/main",
-	"typings": "build/src/main",
+	"main": "build/main",
+	"typings": "build/main",
 	"dependencies": {
 		"tslib": "~1.8.1"
 	},
@@ -37,7 +37,7 @@
 		"test": "npm run test-only",
 		"test-only": "jest --coverage",
 		"test:watch": "jest --watch",
-		"prepublishOnly": "npm run test && npm run build"
+		"prepublishOnly": "npm run test && npm run clean && npm run build"
 	},
 	"engineStrict": true,
 	"engines": {

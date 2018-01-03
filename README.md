@@ -9,4 +9,4 @@
 
 [![Build Status](https://travis-ci.org/dfreire/decouplejs.svg?branch=master)](https://travis-ci.org/dfreire/decouplejs) [![Coverage Status](https://coveralls.io/repos/github/dfreire/decouplejs/badge.svg?branch=master)](https://coveralls.io/github/dfreire/decouplejs?branch=master)
 
-A dead simple pub/sub message bus and service manager useful for decoupling your javascript code.
+A dead simple message and request bus to help you decouple your javascript code.

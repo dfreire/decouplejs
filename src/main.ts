@@ -9,7 +9,7 @@ export class Decouple {
 		this.services = {};
 	}
 
-	subscribe(id: string, callback: Function): string {
+	on(id: string, callback: Function): string {
 		if (this.subscribers[id] == null) {
 			this.subscribers[id] = {};
 		}
@@ -23,11 +23,11 @@ export class Decouple {
 		return subscriberId;
 	}
 
-	unsubscribe(id: string, subscriberId: string): void {
+	off(id: string, subscriberId: string): void {
 		delete this.subscribers[id][subscriberId];
 	}
 
-	publish(id: string, data?: any): void {
+	fire(id: string, data?: any): void {
 		for (let subscriberId in this.subscribers[id]) {
 			const callback = this.subscribers[id][subscriberId];
 			callback(data);

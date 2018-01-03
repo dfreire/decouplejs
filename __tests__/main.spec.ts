@@ -4,9 +4,9 @@ import { Decouple } from '../src/main';
 describe('Decouple', () => {
 	it('is possible to create an instance', () => {
 		const decouple = new Decouple();
-		expect(decouple.subscribe).toBeDefined();
-		expect(decouple.unsubscribe).toBeDefined();
-		expect(decouple.publish).toBeDefined();
+		expect(decouple.on).toBeDefined();
+		expect(decouple.off).toBeDefined();
+		expect(decouple.fire).toBeDefined();
 		expect(decouple.setService).toBeDefined();
 		expect(decouple.getService).toBeDefined();
 	});
@@ -20,9 +20,9 @@ describe('Decouple instance when there are no callbacks registered', () => {
 	});
 
 	it('is possible to register callbacks', () => {
-		expect(decouple.subscribe('EVENT_A', jest.fn())).toBeDefined();
-		expect(decouple.subscribe('EVENT_B', jest.fn())).toBeDefined();
-		expect(decouple.subscribe('EVENT_C', jest.fn())).toBeDefined();
+		expect(decouple.on('EVENT_A', jest.fn())).toBeDefined();
+		expect(decouple.on('EVENT_B', jest.fn())).toBeDefined();
+		expect(decouple.on('EVENT_C', jest.fn())).toBeDefined();
 	});
 });
 
@@ -41,15 +41,15 @@ describe('Decouple instance when there are callbacks registered', () => {
 		callbackB1 = jest.fn();
 		callbackB2 = jest.fn();
 
-		subscriberIdA1 = decouple.subscribe('EVENT_A', callbackA1);
-		subscriberIdA2 = decouple.subscribe('EVENT_A', callbackA2);
-		subscriberIdB1 = decouple.subscribe('EVENT_B', callbackB1);
-		subscriberIdB2 = decouple.subscribe('EVENT_B', callbackB2);
+		subscriberIdA1 = decouple.on('EVENT_A', callbackA1);
+		subscriberIdA2 = decouple.on('EVENT_A', callbackA2);
+		subscriberIdB1 = decouple.on('EVENT_B', callbackB1);
+		subscriberIdB2 = decouple.on('EVENT_B', callbackB2);
 	});
 
 	describe('an event is fired', () => {
 		beforeEach(() => {
-			decouple.publish('EVENT_A', 123);
+			decouple.fire('EVENT_A', 123);
 		});
 
 		it('the right callbacks are called', () => {
@@ -65,8 +65,8 @@ describe('Decouple instance when there are callbacks registered', () => {
 
 	describe('an event is fired twice', () => {
 		beforeEach(() => {
-			decouple.publish('EVENT_A', 123);
-			decouple.publish('EVENT_A', 456);
+			decouple.fire('EVENT_A', 123);
+			decouple.fire('EVENT_A', 456);
 		});
 
 		it('the right callbacks are called twice', () => {
@@ -78,12 +78,12 @@ describe('Decouple instance when there are callbacks registered', () => {
 
 	describe('a callback is unregistered', () => {
 		beforeEach(() => {
-			decouple.unsubscribe('EVENT_A', subscriberIdA1);
+			decouple.off('EVENT_A', subscriberIdA1);
 		});
 
 		describe('an event is fired', () => {
 			beforeEach(() => {
-				decouple.publish('EVENT_A', 123);
+				decouple.fire('EVENT_A', 123);
 			});
 
 			it('that callback is not called', () => {

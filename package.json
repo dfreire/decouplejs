@@ -1,6 +1,6 @@
 {
 	"name": "decouplejs",
-	"version": "2.0.0-alpha6",
+	"version": "2.0.0-alpha8",
 	"description": "A dead simple message and request bus to help you decouple your javascript code.",
 	"author": "Dario Freire <dario.freire@gmail.com>",
 	"license": "MIT",

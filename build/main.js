@@ -1,42 +1,43 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-class Decouple {
-    constructor() {
+var Decouple = (function () {
+    function Decouple() {
         this.listeners = {};
         this.handlers = {};
     }
-    on(eventId, callback) {
+    Decouple.prototype.on = function (eventId, callback) {
         if (this.listeners[eventId] == null) {
             this.listeners[eventId] = {};
         }
-        let listenerId;
+        var listenerId;
         while (listenerId == null || this.listeners[eventId][listenerId] != null) {
             listenerId = Math.random().toString(36).slice(-12);
         }
         this.listeners[eventId][listenerId] = callback;
         return listenerId;
-    }
-    off(eventId, listenerId) {
+    };
+    Decouple.prototype.off = function (eventId, listenerId) {
         delete this.listeners[eventId][listenerId];
-    }
-    fire(eventId, payload) {
-        for (let listenerId in this.listeners[eventId]) {
-            const callback = this.listeners[eventId][listenerId];
+    };
+    Decouple.prototype.fire = function (eventId, payload) {
+        for (var listenerId in this.listeners[eventId]) {
+            var callback = this.listeners[eventId][listenerId];
             callback(payload);
         }
-    }
-    handle(requestId, callback) {
+    };
+    Decouple.prototype.handle = function (requestId, callback) {
         if (this.handlers[requestId] == null) {
             this.handlers[requestId] = callback;
         }
         else {
-            throw `Error: there is already a handler with id: '${requestId}'.`;
+            throw "Error: there is already a handler with id: '" + requestId + "'.";
         }
-    }
-    request(requestId, payload) {
-        const callback = this.handlers[requestId];
+    };
+    Decouple.prototype.request = function (requestId, payload) {
+        var callback = this.handlers[requestId];
         return callback(payload);
-    }
-}
+    };
+    return Decouple;
+}());
 exports.Decouple = Decouple;
 //# sourceMappingURL=main.js.map
